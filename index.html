@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ФЕСТ ВСЕ</title>
+  <style>
+    :root {
+      --blue: #7BAFD4;
+      --purple: #6B4C8A;
+      --red: #E04040;
+      --bg: #FEFEFE;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      overflow-x: hidden;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      overflow: hidden;
+    }
+
+    .hero-letters {
+      position: relative;
+      z-index: 10;
+      width: min(65vw, 600px);
+      height: auto;
+      will-change: transform;
+      filter: drop-shadow(0 20px 60px rgba(107, 76, 138, 0.12));
+    }
+
+    /* ─── DATE ─── */
+    .hero-date {
+      position: relative;
+      z-index: 10;
+      font-family: 'Arial Black', 'Arial', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      color: rgb(0, 0, 0);
+      text-shadow: 1px 8px 0 rgb(123, 82, 136);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transform: scaleX(1.5);
+      white-space: nowrap;
+    }
+
+    /* ─── TICKETS BUTTON ─── */
+    .hero-cta {
+      position: relative;
+      z-index: 20;
+      display: inline-flex;
+      padding: 18px 56px;
+      border: 2px solid var(--purple);
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hero-cta:hover {
+      background: var(--purple);
+      letter-spacing: 5px;
+      box-shadow: 0 8px 32px rgba(107, 76, 138, 0.3);
+    }
+
+    .hero-cta:hover .ticket-label {
+      color: white;
+    }
+
+    .hero-cta:active {
+      transform: scale(0.97);
+    }
+
+    .ticket-label {
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: inherit;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--purple);
+      white-space: nowrap;
+      pointer-events: none;
+      transition: color 0.35s ease, letter-spacing 0.35s ease;
+    }
+
+    /* hide the qtickets link visually — it stretches over the whole .hero-cta */
+    .hero-cta .qtickets-button {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    /* ─── DOODLES ─── */
+    .doodle {
+      position: absolute;
+      z-index: 5;
+      will-change: transform;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .doodle.visible { opacity: 1; }
+    .doodle img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .doodle.depth-1 { z-index: 15; }
+    .doodle.depth-2 { z-index: 5; }
+    .doodle.depth-3 { z-index: 2; }
+    .doodle.depth-3.visible { opacity: 0.55; }
+    .doodle.stretched { filter: blur(1.5px); opacity: 0; }
+    .doodle.stretched.visible { opacity: 0.35; }
+
+    /* ─── SCROLL INDICATOR ─── */
+    .scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.4;
+      animation: bounce 2s ease infinite;
+    }
+
+    .scroll-hint span {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--purple);
+      font-weight: 500;
+    }
+
+    .scroll-hint .arrow {
+      width: 20px;
+      height: 20px;
+      border-right: 2px solid var(--purple);
+      border-bottom: 2px solid var(--purple);
+      transform: rotate(45deg);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+
+    /* ─── LARGE SCREENS ─── */
+    @media (min-width: 1400px) {
+      .hero-letters {
+        width: min(60vw, 800px);
+      }
+      .doodle { transform: scale(1.3); }
+    }
+
+    @media (min-width: 1800px) {
+      .hero-letters {
+        width: min(55vw, 950px);
+      }
+      .doodle { transform: scale(1.5); }
+    }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 768px) {
+      .hero-letters {
+        width: min(90vw, 420px);
+      }
+      .hero-cta {
+        padding: 14px 32px;
+      }
+      .ticket-label {
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+      }
+      .doodle { transform: scale(0.55) !important; }
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      text-align: center;
+      padding: 32px;
+      font-size: 0.8rem;
+      color: #bbb;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="hero">
+    <img class="hero-letters" src="assets/web/hero_letters.png" alt="ВСЕ">
+
+    <div class="hero-date">21–24 мая</div>
+
+    <div class="hero-cta">
+      <span class="ticket-label">Купить билеты</span>
+      <a href="https://qtickets.ru/event/225583" class="qtickets-button">Купить билеты</a>
+    </div>
+
+    <!-- TOP ROW — evenly spaced -->
+    <div class="doodle depth-2" data-speed="0.3" style="top: 3%; left: 2%; width: 160px;">
+      <img src="assets/web/doodle_17.png" alt="">
+    </div>
+    <div class="doodle depth-1" data-speed="0.45" style="top: 8%; left: 20%; width: 90px;">
+      <img src="assets/web/doodle_12.png" alt="">
+    </div>
+    <div class="doodle depth-1" data-speed="0.55" style="top: 3%; left: 40%; width: 110px;">
+      <img src="assets/web/doodle_06.png" alt="">
+    </div>
+    <div class="doodle depth-3 stretched" data-speed="0.15" style="top: 2%; right: 12%; width: 200px;">
+      <img src="assets/web/doodle_08.png" alt="">
+    </div>
+    <div class="doodle depth-1" data-speed="0.5" style="top: 4%; right: 2%; width: 100px;">
+      <img src="assets/web/doodle_18.png" alt="">
+    </div>
+
+    <!-- LEFT SIDE — spaced vertically -->
+    <div class="doodle depth-2" data-speed="0.35" style="top: 32%; left: 1%; width: 100px;">
+      <img src="assets/web/doodle_07.png" alt="">
+    </div>
+    <div class="doodle depth-3 stretched" data-speed="0.2" style="top: 55%; left: 2%; width: 70px;">
+      <img src="assets/web/doodle_19.png" alt="">
+    </div>
+
+    <!-- RIGHT SIDE — spaced vertically -->
+    <div class="doodle depth-3 stretched" data-speed="0.18" style="top: 28%; right: 1%; width: 80px;">
+      <img src="assets/web/doodle_15.png" alt="">
+    </div>
+    <div class="doodle depth-1" data-speed="0.4" style="top: 48%; right: 2%; width: 90px;">
+      <img src="assets/web/doodle_13.png" alt="">
+    </div>
+    <div class="doodle depth-2" data-speed="0.3" style="top: 65%; right: 3%; width: 85px;">
+      <img src="assets/web/doodle_14.png" alt="">
+    </div>
+
+    <!-- BOTTOM ROW — evenly spaced -->
+    <div class="doodle depth-2" data-speed="0.35" style="bottom: 4%; left: 1%; width: 110px;">
+      <img src="assets/web/doodle_10.png" alt="">
+    </div>
+    <div class="doodle depth-3 stretched" data-speed="0.15" style="bottom: 8%; left: 8%; width: 60px;">
+      <img src="assets/web/doodle_16.png" alt="">
+    </div>
+    <div class="doodle depth-1" data-speed="0.5" style="bottom: 6%; left: 16%; width: 120px;">
+      <img src="assets/web/doodle_05.png" alt="">
+    </div>
+    <div class="doodle depth-2 stretched" data-speed="0.4" style="bottom: 5%; left: 33%; width: 160px;">
+      <img src="assets/web/doodle_02.png" alt="">
+    </div>
+    <div class="doodle depth-1" data-speed="0.3" style="bottom: 8%; right: 22%; width: 100px;">
+      <img src="assets/web/doodle_03.png" alt="">
+    </div>
+    <div class="doodle depth-2" data-speed="0.45" style="bottom: 4%; right: 12%; width: 100px;">
+      <img src="assets/web/doodle_04.png" alt="">
+    </div>
+    <div class="doodle depth-1" data-speed="0.35" style="bottom: 3%; right: 1%; width: 80px;">
+      <img src="assets/web/doodle_09.png" alt="">
+    </div>
+
+    <div class="scroll-hint">
+      <span>scroll</span>
+      <div class="arrow"></div>
+    </div>
+  </section>
+
+  <footer>ФЕСТ ВСЕ 2026</footer>
+
+  <script type="text/javascript" src="https://cdn.qtickets.tech/openapi.js"></script>
+
+  <script>
+    const hero = document.querySelector('.hero');
+    const doodles = document.querySelectorAll('.doodle');
+    const heroLetters = document.querySelector('.hero-letters');
+    let ticking = false;
+
+    function updateParallax() {
+      const scrollY = window.scrollY;
+      const heroH = hero.offsetHeight;
+
+      if (scrollY < heroH * 1.5) {
+        doodles.forEach(d => {
+          const speed = parseFloat(d.dataset.speed) || 0.3;
+          const y = scrollY * speed;
+          const rotate = scrollY * speed * 0.015;
+          d.style.transform = `translateY(${y}px) rotate(${rotate}deg)`;
+        });
+        heroLetters.style.transform = `translateY(${scrollY * 0.08}px)`;
+      }
+
+      const hint = document.querySelector('.scroll-hint');
+      if (hint) hint.style.opacity = Math.max(0, 0.4 - scrollY / 300);
+
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    });
+
+    // Reveal doodles staggered
+    window.addEventListener('load', () => {
+      doodles.forEach((d, i) => {
+        setTimeout(() => d.classList.add('visible'), 80 + i * 60);
+      });
+    });
+
+    // Floating idle animation
+    const floatStyles = document.createElement('style');
+    floatStyles.textContent = `
+      @keyframes f0 { 0%,100%{margin-top:0} 50%{margin-top:-10px} }
+      @keyframes f1 { 0%,100%{margin-top:0} 50%{margin-top:8px} }
+      @keyframes f2 { 0%,100%{margin-left:0} 50%{margin-left:7px} }
+    `;
+    document.head.appendChild(floatStyles);
+
+    doodles.forEach((d, i) => {
+      const dur = 3 + Math.random() * 4;
+      const del = Math.random() * 3;
+      d.style.animation = `f${i % 3} ${dur}s ${del}s ease-in-out infinite`;
+    });
+  </script>
+</body>
+</html>
