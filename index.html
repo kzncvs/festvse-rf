@@ -44,15 +44,14 @@
       position: relative;
       z-index: 10;
       width: min(65vw, 600px);
-      overflow: hidden;
       will-change: transform;
       filter: drop-shadow(0 20px 60px rgba(107, 76, 138, 0.12));
     }
 
     .hero-logo .letters-img {
       display: block;
-      width: 116%;
-      margin: -8% 0 0 -8%;
+      width: 100%;
+      height: auto;
       will-change: transform;
     }
 
@@ -319,11 +318,9 @@
           d.style.transform = `translateY(${y}px) rotate(${rotate}deg)`;
         });
 
-        // Logo container — moves up slowly
-        heroLogo.style.transform = `translateY(${scrollY * 0.08}px)`;
-
-        // Inner image — shifts inside the clipped container (inner doodle parallax)
-        lettersImg.style.transform = `translate(${scrollY * 0.02}px, ${scrollY * 0.025}px)`;
+        // Logo container — moves slowly + subtle scale for inner life
+        const s = 1 + scrollY * 0.00008;
+        heroLogo.style.transform = `translateY(${scrollY * 0.08}px) scale(${s})`;
       }
 
       const hint = document.querySelector('.scroll-hint');
