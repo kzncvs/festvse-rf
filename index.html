@@ -39,13 +39,21 @@
       overflow: hidden;
     }
 
-    .hero-letters {
+    /* ─── LOGO COMPOSITE ─── */
+    .hero-logo {
       position: relative;
       z-index: 10;
       width: min(65vw, 600px);
-      height: auto;
+      overflow: hidden;
       will-change: transform;
       filter: drop-shadow(0 20px 60px rgba(107, 76, 138, 0.12));
+    }
+
+    .hero-logo .letters-img {
+      display: block;
+      width: 116%;
+      margin: -8% 0 0 -8%;
+      will-change: transform;
     }
 
     /* ─── DATE ─── */
@@ -170,14 +178,14 @@
 
     /* ─── LARGE SCREENS ─── */
     @media (min-width: 1400px) {
-      .hero-letters {
+      .hero-logo {
         width: min(60vw, 800px);
       }
       .doodle { transform: scale(1.3); }
     }
 
     @media (min-width: 1800px) {
-      .hero-letters {
+      .hero-logo {
         width: min(55vw, 950px);
       }
       .doodle { transform: scale(1.5); }
@@ -185,7 +193,7 @@
 
     /* ─── MOBILE ─── */
     @media (max-width: 768px) {
-      .hero-letters {
+      .hero-logo {
         width: min(90vw, 420px);
       }
       .hero-cta {
@@ -211,7 +219,9 @@
 
   <!-- ═══ HERO ═══ -->
   <section class="hero" id="hero">
-    <img class="hero-letters" src="assets/web/hero_letters.png" alt="ВСЕ">
+    <div class="hero-logo">
+      <img class="letters-img" src="assets/web/hero_letters.png" alt="ВСЕ">
+    </div>
 
     <div class="hero-date">21–24 мая</div>
 
@@ -292,7 +302,8 @@
   <script>
     const hero = document.querySelector('.hero');
     const doodles = document.querySelectorAll('.doodle');
-    const heroLetters = document.querySelector('.hero-letters');
+    const heroLogo = document.querySelector('.hero-logo');
+    const lettersImg = document.querySelector('.letters-img');
     let ticking = false;
 
     function updateParallax() {
@@ -300,13 +311,19 @@
       const heroH = hero.offsetHeight;
 
       if (scrollY < heroH * 1.5) {
+        // Outer doodles — strong parallax
         doodles.forEach(d => {
           const speed = parseFloat(d.dataset.speed) || 0.3;
           const y = scrollY * speed;
           const rotate = scrollY * speed * 0.015;
           d.style.transform = `translateY(${y}px) rotate(${rotate}deg)`;
         });
-        heroLetters.style.transform = `translateY(${scrollY * 0.08}px)`;
+
+        // Logo container — moves up slowly
+        heroLogo.style.transform = `translateY(${scrollY * 0.08}px)`;
+
+        // Inner image — shifts inside the clipped container (inner doodle parallax)
+        lettersImg.style.transform = `translate(${scrollY * 0.02}px, ${scrollY * 0.025}px)`;
       }
 
       const hint = document.querySelector('.scroll-hint');
