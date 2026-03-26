@@ -168,6 +168,25 @@
     .doodle.stretched { filter: blur(1.5px); opacity: 0; }
     .doodle.stretched.visible { opacity: 0.35; }
 
+    /* ─── PARTNER LOGOS (doodle-style) ─── */
+    .doodle.partner {
+      pointer-events: auto;
+      z-index: 12;
+    }
+    .doodle.partner a {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .doodle.partner img {
+      filter: drop-shadow(0 12px 32px rgba(131, 173, 202, 0.18));
+      transition: filter 0.3s ease, transform 0.3s ease;
+    }
+    .doodle.partner:hover img {
+      filter: drop-shadow(0 16px 40px rgba(131, 173, 202, 0.3));
+      transform: scale(1.08);
+    }
+
 
     /* ─── LARGE SCREENS ─── */
     @media (min-width: 1400px) {
@@ -197,6 +216,7 @@
         letter-spacing: 2px;
       }
       .doodle { transform: scale(0.55) !important; }
+      .doodle.partner { width: 45px !important; }
     }
 
     /* ─── SOCIALS ─── */
@@ -288,6 +308,20 @@
     </div>
     <div class="doodle depth-2" data-speed="0.3" style="top: 65%; right: 3%; width: 85px;">
       <img src="assets/web/doodle_14.png" alt="">
+    </div>
+
+    <!-- PARTNER LOGOS — in side margins, staggered in gaps between doodles -->
+    <div class="doodle partner" data-speed="0.4" style="top: 20%; left: 1%; width: 130px;">
+      <a href="https://t.me/smena_kazan" target="_blank" style="transform: rotate(-4deg);"><img src="assets/web/smena.png" alt="Смена"></a>
+    </div>
+    <div class="doodle partner" data-speed="0.35" style="top: 15%; right: 2%; width: 120px;">
+      <a href="https://yandex.com/maps/-/CPVr4M0x" target="_blank" style="transform: rotate(3deg);"><img src="assets/web/fomin.png" alt="Бар Фомин"></a>
+    </div>
+    <div class="doodle partner" data-speed="0.32" style="top: 42%; left: 1%; width: 110px;">
+      <a href="https://t.me/scha_kazan" target="_blank" style="transform: rotate(5deg);"><img src="assets/web/sha.png" alt="Бар Ща"></a>
+    </div>
+    <div class="doodle partner" data-speed="0.42" style="top: 56%; right: 1%; width: 120px;">
+      <a href="https://t.me/moscowmarketkzn" target="_blank" style="transform: rotate(-3deg);"><img src="assets/web/moscow.png" alt="Московский рынок"></a>
     </div>
 
     <!-- BOTTOM ROW — evenly spaced -->
